@@ -44,7 +44,24 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSwatch()
             .copyWith(secondary: const Color(0xFF1DB954)),
       ),
-      home: const Scaffold(),
+      home: Shell(),
+    );
+  }
+}
+
+class Shell extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Column(
+        children: [
+          Expanded(
+            child: Row(
+              children: [],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
