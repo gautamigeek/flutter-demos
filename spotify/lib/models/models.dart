@@ -1,0 +1,1 @@
+export 'side_menu_icon_tab_model.dart';

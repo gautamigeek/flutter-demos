@@ -1,6 +1,15 @@
+import 'dart:io';
+
+import 'package:desktop_window/desktop_window.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:spotify/widgets/widgets.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  if (!kIsWeb && (Platform.isLinux || Platform.isWindows || Platform.isMacOS)) {
+    DesktopWindow.setMinWindowSize(const Size(600, 800));
+  }
   runApp(MyApp());
 }
 
@@ -41,8 +50,10 @@ class MyApp extends StatelessWidget {
             letterSpacing: 1.0,
           ),
         ),
-        colorScheme: ColorScheme.fromSwatch()
-            .copyWith(secondary: const Color(0xFF1DB954)),
+        // colorScheme: ColorScheme.fromSwatch(
+        //   accentColor: const Color(0xFF1DB954),
+        //   brightness: Brightness.dark,
+        // ),
       ),
       home: Shell(),
     );
@@ -57,8 +68,15 @@ class Shell extends StatelessWidget {
         children: [
           Expanded(
             child: Row(
-              children: [],
+              children: [
+                SideMenu(),
+              ],
             ),
+          ),
+          Container(
+            width: double.infinity,
+            height: 84.0,
+            color: Colors.blue,
           ),
         ],
       ),
