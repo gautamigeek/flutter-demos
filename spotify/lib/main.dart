@@ -1,7 +1,25 @@
+import 'dart:io';
+import 'package:desktop_window/desktop_window.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:spotify/data/data.dart';
+import 'package:spotify/models/current_track_model.dart';
+import 'package:spotify/widgets/widgets.dart';
+
+import 'screens/playlist_screen.dart';
 
 void main() async {
-  runApp(MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  if (!kIsWeb && (Platform.isLinux || Platform.isWindows || Platform.isMacOS)) {
+    DesktopWindow.setMinWindowSize(const Size(600, 400));
+  }
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => CurrentTrackModel(),
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -41,8 +59,10 @@ class MyApp extends StatelessWidget {
             letterSpacing: 1.0,
           ),
         ),
-        colorScheme: ColorScheme.fromSwatch()
-            .copyWith(secondary: const Color(0xFF1DB954)),
+        colorScheme: ColorScheme.fromSwatch(
+          accentColor: const Color(0xFF1DB954),
+          brightness: Brightness.dark,
+        ),
       ),
       home: Shell(),
     );
@@ -57,9 +77,15 @@ class Shell extends StatelessWidget {
         children: [
           Expanded(
             child: Row(
-              children: [],
+              children: [
+                if (MediaQuery.of(context).size.width > 800) SideMenu(),
+                const Expanded(
+                  child: PlaylistScreen(playlist: lofihiphopPlaylist),
+                ),
+              ],
             ),
           ),
+          CurrentTrack(),
         ],
       ),
     );
